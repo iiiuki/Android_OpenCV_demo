@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.example.hiep.android_opencv.face.OpenCVActivity;
 import com.example.hiep.android_opencv.puzzle.PuzzleActivity;
 import com.example.hiep.android_opencv.utils.BlurOpenCVEffectTransaction;
 import com.example.hiep.android_opencv.utils.FileUtil;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickSelectPhoto(View view) {
         switch (view.getId()){
             case R.id.btn_start_puzzle:
-                startActivity(new Intent(this, PuzzleActivity.class));
+                startActivity(new Intent(this, OpenCVActivity.class));
                 break;
             case R.id.img_select_photo:
                 checkPermissionOS6();

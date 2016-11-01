@@ -1,10 +1,12 @@
 package com.example.hiep.android_opencv.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.FaceDetector;
 import android.util.Log;
 
 import com.example.hiep.android_opencv.R;
+import com.example.hiep.android_opencv.system.MyApp;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
@@ -16,6 +18,10 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
 /**
  * Created by Hiep on 10/27/2016.
@@ -39,7 +45,11 @@ public class OpenCVUtil {
         Bitmap output = Bitmap.createBitmap(bmInput.getWidth(),
                 bmInput.getHeight(),
                 Bitmap.Config.ARGB_8888);
-        String path = "android.resource://" + "com.example.hiep.android_opencv" + "/" + R.raw.lbpcascade_fontalface;
+        String path = initializeOpenCVDependencies();
+        if (path==null){
+            Log.e("OpenCVUtil", "Path is null");
+            return null;
+        }
         CascadeClassifier faceDetector = new CascadeClassifier(path);
         Mat source = new Mat();
         Utils.bitmapToMat(bmInput, source);
@@ -54,5 +64,30 @@ public class OpenCVUtil {
         }
         Utils.matToBitmap(source, output);
         return output;
+    }
+
+    private static String initializeOpenCVDependencies() {
+        try {
+            // Copy the resource into a temp file so OpenCV can load it
+            InputStream is = MyApp.getInstance().getApplicationContext().getResources().openRawResource(R.raw.lbpcascade_fontalface);
+            File cascadeDir =  MyApp.getInstance().getApplicationContext().getDir("cascade", Context.MODE_PRIVATE);
+            File mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
+            FileOutputStream os = new FileOutputStream(mCascadeFile);
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = is.read(buffer)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            is.close();
+            os.close();
+
+            // Load the cascade classifier
+            return mCascadeFile.getAbsolutePath();
+
+        } catch (Exception e) {
+            Log.e("OpenCVUtil", "Error loading cascade", e);
+            return null;
+        }
     }
 }

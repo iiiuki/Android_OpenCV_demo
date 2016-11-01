@@ -12,11 +12,17 @@ import org.opencv.android.OpenCVLoader;
  */
 public class MyApp extends Application {
     private static final String TAG = MyApp.class.getSimpleName();
+    private static MyApp mInstance;
+
+    public static synchronized MyApp getInstance() {
+        return mInstance;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         loadOpenCV();
+        mInstance = this;
     }
 
     private void loadOpenCV(){
