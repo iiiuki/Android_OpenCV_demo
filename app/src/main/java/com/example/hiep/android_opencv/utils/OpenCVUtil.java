@@ -69,7 +69,7 @@ public class OpenCVUtil {
     private static String initializeOpenCVDependencies() {
         try {
             // Copy the resource into a temp file so OpenCV can load it
-            InputStream is = MyApp.getInstance().getApplicationContext().getResources().openRawResource(R.raw.lbpcascade_fontalface);
+            InputStream is = MyApp.getInstance().getApplicationContext().getResources().openRawResource(R.raw.lbpcascade_frontalface);
             File cascadeDir =  MyApp.getInstance().getApplicationContext().getDir("cascade", Context.MODE_PRIVATE);
             File mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
             FileOutputStream os = new FileOutputStream(mCascadeFile);

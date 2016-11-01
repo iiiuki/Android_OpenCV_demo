@@ -28,6 +28,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".face.OpenCVActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".face.FdActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
